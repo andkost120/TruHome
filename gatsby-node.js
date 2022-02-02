@@ -45,27 +45,25 @@ exports.createPages = async ({ graphql, actions }) => {
               RESULTCODE
               RESULTMESSAGE
               RESULTDESCRIPTION
-              GEOMETRY {
-                coordinates
-                type
-              }
             }
+            id
           }
         }
       }
     }
   `)
 
+  //Get the homelisting data from Strapi
+  const homeData = allHomes[0].data
   const homeTemplate = path.resolve(`./src/templates/home-detail.js`)
 
-  allHomes.forEach(home => {
-    const homeDetail = home.data?.attributes
-
+  //Generate the detail page of Home
+  homeData.forEach(node => {
     createPage({
-      path: linkResolver(homeDetail),
+      path: linkResolver(node),
       component: homeTemplate,
       context: {
-        home_detail: homeDetail,
+        home_detail: node.attributes,
       },
     })
   })

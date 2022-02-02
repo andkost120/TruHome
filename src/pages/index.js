@@ -3,14 +3,29 @@ import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import { linkResolver } from "../utils/linkResolver"
 
 const IndexPage = ({ data }) => {
-  console.log(data)
+  const homeList = data?.allStrapiAccountNumber.nodes[0].data
+  console.log(homeList)
   return (
     <Layout>
       <Seo title="Home" />
 
       <h1>Welcome to your new Gatsby site.</h1>
+      {homeList.map((item, idx) => {
+        let linkData = item?.attributes
+        return (
+          (linkData?.HOUSENUM ||
+            linkData?.STREETNAME ||
+            linkData?.POSTALCODE) && (
+            <div key={idx}>
+              <Link to={linkResolver(item)}>{linkData.FULLADDRESS}</Link>
+              <br />
+            </div>
+          )
+        )
+      })}
     </Layout>
   )
 }
@@ -54,19 +69,8 @@ export const pageQuery = graphql`
             RESULTCODE
             RESULTMESSAGE
             RESULTDESCRIPTION
-            GEOMETRY {
-              coordinates
-              type
-            }
           }
-        }
-        meta {
-          pagination {
-            page
-            pageSize
-            pageCount
-            total
-          }
+          id
         }
       }
     }

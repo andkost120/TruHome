@@ -39,7 +39,7 @@ module.exports = {
       options: {
         apiURL: "https://strapi.rmcloud.com/api",
         collectionTypes: ["account-number"],
-        queryLimit: 6000000,
+        queryLimit: 500000,
       },
     },
   ],
