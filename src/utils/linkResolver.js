@@ -10,3 +10,15 @@ exports.linkResolver = data => {
       }`
     : `/homedetails/${data?.id}`
 }
+
+exports.linkResolver2 = data => {
+  return data?.HOUSENUM || data?.STREETNAME || data?.POSTALCODE
+    ? `/homedetails/${
+        data?.HOUSENUM +
+        "-" +
+        data?.STREETNAME.replace(" ", "-") +
+        "-AB-Edmonton-" +
+        data?.POSTALCODE
+      }`
+    : `/homedetails/${data?.id}`
+}
